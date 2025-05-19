@@ -1,0 +1,264 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+  
+  #4b2e18 0%,        /* Earth Brown */
+  #0a0a23 70%,       /* Night Sky Blue-Black */
+  #000000 100%       /* Deep black for edge */
+) important!;
+}
+
+@font-face {
+  font-family: 'Lumos';
+  src: url('/my-portfolio/public/fonts/LUMOS.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+}
+
+.outline-text {
+  -webkit-text-stroke: 1px white;
+}
+
+html, #root, body {
+  height: 100vh;
+  margin: 0;
+ 
+}
+
+.lumos-text {
+  font-family: 'Lumos', serif;
+}
+
+/* Animations */
+@keyframes rota {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes opa {
+  0% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-bottom {
+  position: relative;
+  animation: animatebottom 1s forwards;
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-triangle {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-fade-in-circle {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 1.2s;
+}
+
+.animate-fade-in-wand {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 2.2s;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-triangle {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-fade-in-circle {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 1.2s;
+}
+
+.animate-fade-in-wand {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  animation-delay: 2.2s;
+}
+
+@keyframes wordFade {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.word {
+  opacity: 0;
+  animation: wordFade 0.5s ease forwards;
+}
+
+.word-1 {
+  animation-delay: 2.5s;
+}
+.word-2 {
+  animation-delay: 2.8s;
+}
+.word-3 {
+  animation-delay: 3.1s;
+}
+.word-4 {
+  animation-delay: 3.4s;
+}
+.word-5 {
+  animation-delay: 3.7s;
+}
+
+.lumos-screen-glow {
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  animation: lumosExpand 3s ease-out forwards;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+
+@keyframes lumosExpand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 80%
+    );
+  }
+  50% {
+    transform: scale(3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
+/* Magic button */
+.magic-btn {
+  position: relative;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  animation: floatY 3s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+
+.magic-btn:hover {
+  transform: scale(1.05);
+}
+
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.magic-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.05) 60%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: ripplePulse 2.5s ease-out infinite;
+  z-index: -1;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+@keyframes ripplePulse {
+  0% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.5);
+  }
+}
