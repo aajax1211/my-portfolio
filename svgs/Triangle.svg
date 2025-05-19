@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200"
+     xmlns="http://www.w3.org/2000/svg" >
+  <defs>
+    <!-- Rough chalky stroke style -->
+    <filter id="chalk" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="4" />
+    </filter>
+  </defs>
+
+  <!-- Chalk triangle -->
+  <polygon points="100,20 30,180 170,180"
+           stroke="white" stroke-width="6" fill="none"
+           filter="url(#chalk)" />
+</svg>

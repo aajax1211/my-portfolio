@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200"
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Chalk stroke filter -->
+    <filter id="chalk" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="3" />
+    </filter>
+  </defs>
+
+  <!-- Chalk Circle -->
+  <circle cx="100" cy="135" r="45"
+          stroke="white" stroke-width="5" fill="none"
+          filter="url(#chalk)" />
+</svg>
