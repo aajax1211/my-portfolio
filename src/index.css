@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: 'Lumos';
-  src: url('/my-portfolio/public/fonts/LUMOS.TTF') format('truetype');
+  src: url('/fonts/LUMOS.TTF') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

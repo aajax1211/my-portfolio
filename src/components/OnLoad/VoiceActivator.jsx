@@ -18,8 +18,10 @@ export default function VoiceActivator({ onTrigger }) {
     recognition.onresult = () => {
       // Detected *any* voice input
       recognition.stop();
+      
       setTimeout(() => {
-        onTrigger(); // delay to build illusion of “processing spell”
+        onTrigger();
+         // delay to build illusion of “processing spell”
       }, 500); // 1 second for realism
     };
 

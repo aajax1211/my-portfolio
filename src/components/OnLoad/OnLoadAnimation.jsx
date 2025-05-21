@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import DeathlyLoader from "./DeathlyLoader";
 import VoiceActivator from "./VoiceActivator";
-import Home from "../Home";
 
+// Lazy load the Home component
+const Home = lazy(() => import("../Home"));
 
-function OnLoadAnimation() {
+function OnLoadAnimation({audioRef}) {
   const [phase, setPhase] = useState("loader"); // 'loader' → 'spell' → 'reveal'
   const [showButton, setShowButton] = useState(false);
 
@@ -33,11 +34,21 @@ function OnLoadAnimation() {
             onTrigger={() => {
               
               setPhase("reveal");
+              audioRef.current.play();
             }}
           />
           <div className="animate-bottom text-white text-center text-xl lg:text-3xl xl:text-4xl">
-        <h2>"Lumos Maxima"</h2>
+        <h2> Say "Lumos Maxima"</h2>
         <p>to illuminate the world</p>
+        <button 
+            onClick={() => {
+              setPhase("reveal");
+              audioRef.current.play();
+            }}
+            className="mt-8 px-6 py-3 bg-[#4b2e18] text-white rounded-lg hover:bg-[#6b4e38] transition-colors duration-300 shadow-lg hover:shadow-xl"
+          >
+            Cast Spell
+          </button>
       </div>
       
         </>
@@ -53,7 +64,9 @@ function OnLoadAnimation() {
       {/* Button Reveal */}
       {showButton && (
         <div className="w-full h-screen relative">
-        <Home></Home>
+          <Suspense fallback={<div className="text-white">Loading...</div>}>
+            <Home />
+          </Suspense>
         </div>
       )}
     </div>
