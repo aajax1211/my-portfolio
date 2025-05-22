@@ -5,7 +5,7 @@ import VoiceActivator from "./VoiceActivator";
 // Lazy load the Home component
 const Home = lazy(() => import("../Home"));
 
-function OnLoadAnimation({audioRef}) {
+function OnLoadAnimation({audioRef, onHomeLoad}) {
   const [phase, setPhase] = useState("loader"); // 'loader' → 'spell' → 'reveal'
   const [showButton, setShowButton] = useState(false);
 
@@ -17,10 +17,11 @@ function OnLoadAnimation({audioRef}) {
     if (phase === "reveal") {
       const timer = setTimeout(() => {
         setShowButton(true);
+        onHomeLoad?.(true);
       }, 3000); // same as lumos-screen-glow animation duration
       return () => clearTimeout(timer);
     }
-  }, [phase]);
+  }, [phase, onHomeLoad]);
 
   return (
     <div className="relative min-h-screen bg-[radial-gradient(#4b2e18_0%,#0a0a23_70%,#000000_100%)] flex items-center justify-center overflow-hidden">
@@ -32,7 +33,6 @@ function OnLoadAnimation({audioRef}) {
         <>
           <VoiceActivator
             onTrigger={() => {
-              
               setPhase("reveal");
               audioRef.current.play();
             }}
@@ -66,6 +66,7 @@ function OnLoadAnimation({audioRef}) {
         <div className="w-full h-screen relative">
           <Suspense fallback={<div className="text-white">Loading...</div>}>
             <Home />
+            
           </Suspense>
         </div>
       )}

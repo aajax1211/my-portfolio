@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/my-portfolio/",
+  base: '/r3f-animated-book-slider-starter-main/',
   build: {
     rollupOptions: {
       output: {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import { PAGE_DEPTH, PAGE_SEGMENTS, SEGMENT_WIDTH, easingFactor, outsideCurveStrength, pageGeometry, turningCurveStrength } from "../constants/constants";
+import { PAGE_DEPTH, PAGE_SEGMENTS, SEGMENT_WIDTH, easingFactor, outsideCurveStrength, pageGeometry } from "../constants/constants";
 import { pageMaterials } from "../helper/pageMaterials";
 import { applySkinningToPageGeometry } from "../helper/skinningToPageGeo";
 import { useTexture } from "@react-three/drei";
@@ -108,7 +108,7 @@ useFrame((_,delta) => {
     targetRotation * insideCurveIntensity * 0.18 - 
     outsideCurveStrength * outsideCurveIntensity * targetRotation 
 
-    if( bookClosed){
+    if(bookClosed){
         if (i === 0) {
             rotationAngle = targetRotation;
         }else{
@@ -126,7 +126,7 @@ useFrame((_,delta) => {
 });
 const activePageIndex = bookClosed ? page.length + 1 : page;
   return (
-    <group {...props} ref={group} rotation-y={-Math.PI / 2} position-x={-number * PAGE_DEPTH}>
+    <group {...props} ref={group} rotation-y={0} position-x={-number * PAGE_DEPTH}>
       <primitive ref={skinnedMeshRef} object={mesh} position-z={-number * PAGE_DEPTH
         + (number === activePageIndex ? PAGE_DEPTH * 2 : 0)
       }
