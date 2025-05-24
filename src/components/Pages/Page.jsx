@@ -28,9 +28,9 @@ const loadTexture = (path) => {
 
 pages.forEach((page) => {
   try {
-    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/${page.front}.jpg`]);
-    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/${page.back}.jpg`]);
-    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/book-cover-roughness.jpg`]);
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}textures/${page.front}.jpg`]);
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}textures/${page.back}.jpg`]);
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}textures/book-cover-roughness.jpg`]);
   } catch (error) {
     console.error('Error preloading textures:', error);
   }
@@ -42,10 +42,10 @@ export const Page = ({ number, front, back,page,opened,bookClosed, ...props }) =
     useCursor(highlighted)
 
     const [picture, picture2, pictureRoughness] = useTexture([
-  `${BASE_URL}/textures/${front}.jpg`,
-  `${BASE_URL}/textures/${back}.jpg`,
+  `${BASE_URL}textures/${front}.jpg`,
+  `${BASE_URL}textures/${back}.jpg`,
   ...(number === 0 || number === pages.length - 1
-    ? [`${BASE_URL}/textures/book-cover-roughness.jpg`]
+    ? [`${BASE_URL}textures/book-cover-roughness.jpg`]
     : [])
 ], undefined, undefined);
   const group = useRef();
@@ -107,13 +107,11 @@ useFrame((_,delta) => {
 
   const bones = skinnedMeshRef.current.skeleton.bones;
 
+  // Only update if there's been a change
   if(lastOpened.current !== opened){
     turnedAt.current = +new Date();
     lastOpened.current = opened;
   }
-
-
-  let turningTime = Math.min(400, +new Date() - turnedAt.current)/400;
 
   let targetRotation = opened ? -Math.PI / 2 : Math.PI / 2;
 
@@ -121,47 +119,55 @@ useFrame((_,delta) => {
     targetRotation += degToRad(number * 0.8);
   }
 
+  // Cache calculations that don't need to change every frame
+  const insideCurveIntensities = bones.map((_, i) => i < 8 ? Math.sin(i * 0.2 + 0.25) : 0);
+  const outsideCurveIntensities = bones.map((_, i) => i > 8 ? Math.cos(i * 0.3 + 0.09) : 0);
+
   // Smoothly interpolate current rotation towards target
   for (let i = 0; i < bones.length; i++) {
     const target = i === 0 ? group.current : bones[i];
-    const insideCurveIntensity = i < 8 ? Math.sin(i * 0.2 + 0.25) : 0;
-    const outsideCurveIntensity = i > 8 ? Math.cos(i * 0.3 + 0.09) : 0;
-
-
-
+    
     let rotationAngle = 
-    targetRotation * insideCurveIntensity * 0.18 - 
-    outsideCurveStrength * outsideCurveIntensity * targetRotation 
+      targetRotation * insideCurveIntensities[i] * 0.18 - 
+      outsideCurveStrength * outsideCurveIntensities[i] * targetRotation;
 
     if(bookClosed){
-        if (i === 0) {
-            rotationAngle = targetRotation;
-        }else{
-            rotationAngle = 0
-        }
+      if (i === 0) {
+        rotationAngle = targetRotation;
+      } else {
+        rotationAngle = 0;
+      }
     }
-    easing.dampAngle(
-      target.rotation,
-      "y",
-      rotationAngle,
-      easingFactor,
-      delta // speed factor (0.1 = slow, 1 = instant)
-    );
+
+    // Only update if there's a significant change
+    if (Math.abs(target.rotation.y - rotationAngle) > 0.001) {
+      easing.dampAngle(
+        target.rotation,
+        "y",
+        rotationAngle,
+        easingFactor,
+        delta
+      );
+    }
   }
 });
 const activePageIndex = bookClosed ? page.length + 1 : page;
   return (
-    <group {...props} ref={group} rotation-y={0} position-x={-number * PAGE_DEPTH} onPointerEnter={(e)=>{
+    <group {...props} ref={group} rotation-y={0} position-x={-number * PAGE_DEPTH} 
+    onPointerEnter={(e)=>{
       e.stopPropagation()
       setHighlighted(true)
     }}
-    onPointerLeave={(e)=>{
+    onPointerLeave={(e) =>{
       e.stopPropagation()
       setHighlighted(false)
     }}
     onClick={(e)=>{
       e.stopPropagation()
-      setPage(opened ? number : number + 1)
+      // Only allow opening pages up to testimonials (index 4)
+      if (number < 5) {
+        setPage(opened ? number : number + 1)
+      }
       setHighlighted(false)
     }}>
       <primitive ref={skinnedMeshRef} object={mesh} position-z={-number * PAGE_DEPTH

@@ -1,5 +1,4 @@
 import { atom, useAtom } from "jotai";
-import { Tooltip } from "./Tooltip";
 
 const pictures = [
   "DSC00680",
@@ -58,25 +57,6 @@ export const UI = () => {
     }
   };
 
-  const getTooltipProps = (pageNumber) => {
-    switch (pageNumber) {
-      case 3:
-        return {
-          link: 'https://github.com/aajax1211/proshop.com-django.git',
-          projectName: 'ProShop'
-        };
-      case 4:
-        return {
-          link: 'https://github.com/aajax1211/chit-chat-react-node.git',
-          projectName: 'Chit-Chat'
-        };
-      default:
-        return null;
-    }
-  };
-
-  const tooltipProps = getTooltipProps(page);
-
   return (
     <>
       <main className="pointer-events-none select-none z-10 fixed inset-0 flex justify-between flex-col">
@@ -100,13 +80,6 @@ export const UI = () => {
           </div>
         </div>
       </main>
-      {tooltipProps && (
-        <Tooltip 
-          show={page === 3 || page === 4}
-          link={tooltipProps.link}
-          projectName={tooltipProps.projectName}
-        />
-      )}
     </>
   );
 };

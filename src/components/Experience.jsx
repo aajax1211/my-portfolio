@@ -2,19 +2,21 @@ import { Environment, Float, OrbitControls } from "@react-three/drei";
 import { Book } from "./Book";
 import { useAtom } from "jotai";
 import { pageAtom } from "./UI";
+import { useSpring, a } from "@react-spring/three";
 
 export const Experience = () => {
   const [currentPage] = useAtom(pageAtom);
   const isBookClosed = currentPage === 0;
+  const { position } = useSpring({
+    position: isBookClosed ? [0, 0, 0.5] : [0, 0, 0],
+    config: { mass: 0.5, tension: 120, friction: 20 }, 
+  });
 
   return (
     <>
-    <Float
-    floatIntensity={1}
-    speed={1}
-    rotationIntensity={1}>
-    <Book/>
-    </Float>
+      <a.group position={position}>
+      <Book />
+    </a.group>
       <OrbitControls />
       <Environment preset="studio"></Environment>
       <directionalLight

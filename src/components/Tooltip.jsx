@@ -23,7 +23,7 @@ export const Tooltip = ({ show, message, link, projectName }) => {
   if (!visible) return null;
 
   return (
-    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-float`}>
+    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-100 animate-float`}>
       <div 
         className={`bg-black/90 border-2 border-yellow-500/50 px-6 py-3 rounded-lg shadow-lg animate-fade-in cursor-pointer hover:bg-black/80 transition-colors`}
         onClick={handleClick}

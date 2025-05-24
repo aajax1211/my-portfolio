@@ -16,7 +16,7 @@ function App() {
         onHomeLoad={setShowResumeButton}
       />
       <audio ref={audioRef} loop>
-        <source src={`${BASE_URL}/sounds/theme.mp3`} type="audio/mpeg" />
+        <source src={`${BASE_URL}sounds/theme.mp3`} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       {showResumeButton && (

@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function VoiceActivator({ onTrigger }) {
-  const [isListening, setIsListening] = useState(true);
-
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      alert("Your browser doesn’t support speech recognition.");
       return;
     }
 

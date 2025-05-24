@@ -5,6 +5,8 @@ import Lottie from 'lottie-react';
 
 const MouseFollower = () => {
   const animationRef = useRef(null);
+  const lastUpdate = useRef(0);
+  const THROTTLE_MS = 16; // ~60fps
 
   const [spring, api] = useSpring(() => ({
     x: 0,
@@ -14,7 +16,11 @@ const MouseFollower = () => {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      api.start({ x: e.clientX, y: e.clientY });
+      const now = performance.now();
+      if (now - lastUpdate.current >= THROTTLE_MS) {
+        api.start({ x: e.clientX, y: e.clientY });
+        lastUpdate.current = now;
+      }
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -32,7 +38,7 @@ const MouseFollower = () => {
     >
       <Lottie
         lottieRef={animationRef}
-        path={`${BASE_URL}/animations/cursor.json`}
+        path={`${BASE_URL}animations/cursor.json`}
         loop
         autoplay
         style={{ width: '100%', height: '100%' }}

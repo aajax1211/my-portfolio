@@ -6,7 +6,7 @@ export const ResumeButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleDownload = () => {
-    window.open('/my-portfolio/resume/AjitBehl_SoftwareDeveloper_Resume.pdf', '_blank');
+    window.open('/resume/AjitBehl_SoftwareDeveloper_Resume.pdf', '_blank');
     setIsMenuOpen(false);
   };
 
