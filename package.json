@@ -2,7 +2,7 @@
   "name": "r3f-vite-starter",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://aajax1211.github.io/r3f-animated-book-slider-starter-main",
+  "homepage": "https://aajax1211.github.io/my-portfolio/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,12 +12,16 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@react-three/drei": "^9.108.1",
-    "@react-three/fiber": "^8.16.8",
+    "@lottiefiles/react-lottie-player": "^3.6.0",
+    "@react-spring/web": "^10.0.1",
+    "@react-three/drei": "^9.88.0",
+    "@react-three/fiber": "^8.15.0",
     "@types/three": "0.152.1",
+    "annyang": "^2.6.1",
     "autoprefixer": "^10.4.19",
     "jotai": "^2.8.4",
     "leva": "^0.9.35",
+    "lottie-react": "^2.4.1",
     "maath": "^0.10.8",
     "postcss": "^8.4.39",
     "react": "^18.2.0",

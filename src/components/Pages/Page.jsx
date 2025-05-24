@@ -1,28 +1,53 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { PAGE_DEPTH, PAGE_SEGMENTS, SEGMENT_WIDTH, easingFactor, outsideCurveStrength, pageGeometry } from "../constants/constants";
+import { BASE_URL, PAGE_DEPTH, PAGE_SEGMENTS, SEGMENT_WIDTH, easingFactor, outsideCurveStrength, pageGeometry } from "../constants/constants";
 import { pageMaterials } from "../helper/pageMaterials";
 import { applySkinningToPageGeometry } from "../helper/skinningToPageGeo";
-import { useTexture } from "@react-three/drei";
-import { pages } from "../UI";
+import { useCursor, useTexture } from "@react-three/drei";
+import { pageAtom, pages } from "../UI";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { easing } from "maath";
+import { useAtom } from "jotai";
+
+// Add error handling for texture loading
+const loadTexture = (path) => {
+  return new Promise((resolve, reject) => {
+    const loader = new THREE.TextureLoader();
+    loader.load(
+      path,
+      (texture) => resolve(texture),
+      undefined,
+      (error) => {
+        console.error(`Failed to load texture: ${path}`, error);
+        reject(error);
+      }
+    );
+  });
+};
 
 pages.forEach((page) => {
-  useLoader.preload(THREE.TextureLoader, [`/textures/${page.front}.jpg`]);
-  useLoader.preload(THREE.TextureLoader, [`/textures/${page.back}.jpg`]);
-  useLoader.preload(THREE.TextureLoader, [`/textures/book-cover-roughness.jpg`]);
+  try {
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/${page.front}.jpg`]);
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/${page.back}.jpg`]);
+    useLoader.preload(THREE.TextureLoader, [`${BASE_URL}/textures/book-cover-roughness.jpg`]);
+  } catch (error) {
+    console.error('Error preloading textures:', error);
+  }
 });
 
 export const Page = ({ number, front, back,page,opened,bookClosed, ...props }) => {
+    const[highlighted, setHighlighted] = useState(false)
+    const[_,setPage] = useAtom(pageAtom)
+    useCursor(highlighted)
+
     const [picture, picture2, pictureRoughness] = useTexture([
-  `/textures/${front}.jpg`,
-  `/textures/${back}.jpg`,
+  `${BASE_URL}/textures/${front}.jpg`,
+  `${BASE_URL}/textures/${back}.jpg`,
   ...(number === 0 || number === pages.length - 1
-    ? [`/textures/book-cover-roughness.jpg`]
+    ? [`${BASE_URL}/textures/book-cover-roughness.jpg`]
     : [])
-]);
+], undefined, undefined);
   const group = useRef();
   const skinnedMeshRef = useRef();
    const turnedAt = useRef(0);
@@ -126,7 +151,19 @@ useFrame((_,delta) => {
 });
 const activePageIndex = bookClosed ? page.length + 1 : page;
   return (
-    <group {...props} ref={group} rotation-y={0} position-x={-number * PAGE_DEPTH}>
+    <group {...props} ref={group} rotation-y={0} position-x={-number * PAGE_DEPTH} onPointerEnter={(e)=>{
+      e.stopPropagation()
+      setHighlighted(true)
+    }}
+    onPointerLeave={(e)=>{
+      e.stopPropagation()
+      setHighlighted(false)
+    }}
+    onClick={(e)=>{
+      e.stopPropagation()
+      setPage(opened ? number : number + 1)
+      setHighlighted(false)
+    }}>
       <primitive ref={skinnedMeshRef} object={mesh} position-z={-number * PAGE_DEPTH
         + (number === activePageIndex ? PAGE_DEPTH * 2 : 0)
       }

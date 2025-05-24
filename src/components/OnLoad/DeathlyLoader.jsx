@@ -1,3 +1,5 @@
+import { BASE_URL } from "../constants/constants";
+
 
 export default function DeathlyLoader() {
 
@@ -6,21 +8,21 @@ export default function DeathlyLoader() {
       <div className="relative w-[300px] h-[200px] flex justify-center items-center">
         {/* Triangle */}
         <img
-          src="/svgs/Triangle.svg"
+          src={`${BASE_URL}/svgs/Triangle.svg`}
           alt="Triangle"
           className="absolute w-[200px] h-[200px] opacity-0 animate-fade-in-triangle"
         />
 
         {/* Circle */}
         <img
-          src="/svgs/Circle.svg"
+          src={`${BASE_URL}/svgs/Circle.svg`}
           alt="Circle"
           className="absolute w-[200px] h-[200px] opacity-0 animate-fade-in-circle"
         />
 
         {/* Wand */}
         <img
-          src="/svgs/Wand.svg"
+          src={`${BASE_URL}/svgs/Wand.svg`}
           alt="Wand"
           className="absolute w-[200px] h-[200px] opacity-0 animate-fade-in-wand"
         />

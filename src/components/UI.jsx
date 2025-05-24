@@ -80,9 +80,8 @@ export const UI = () => {
   return (
     <>
       <main className="pointer-events-none select-none z-10 fixed inset-0 flex justify-between flex-col">
-        <a className="pointer-events-auto mt-10 ml-10 text-white">
-          <p className="w-20">AJIT BEHL</p>
-        </a>
+        <div className="pointer-events-auto mt-10 ml-10">
+        </div>
         <div className="w-full overflow-auto pointer-events-auto flex justify-center">
           <div className="overflow-auto flex items-center gap-4 max-w-full p-10">
             {[...pages].map((_, index) => (

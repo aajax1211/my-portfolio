@@ -15,8 +15,8 @@
 }
 
 @font-face {
-  font-family: 'Lumos';
-  src: url('/fonts/LUMOS.TTF') format('truetype');
+  font-family: 'LUMOS';
+  src: url('/my-portfolio/fonts/LUMOS.TTF') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -109,33 +109,6 @@ html, #root, body {
   animation-delay: 2.2s;
 }
 
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fade-in-triangle {
-  animation: fadeIn 1.5s ease-in-out forwards;
-  animation-delay: 0.3s;
-}
-
-.animate-fade-in-circle {
-  animation: fadeIn 1.5s ease-in-out forwards;
-  animation-delay: 1.2s;
-}
-
-.animate-fade-in-wand {
-  animation: fadeIn 1.5s ease-in-out forwards;
-  animation-delay: 2.2s;
-}
-
 @keyframes wordFade {
   0% {
     opacity: 0;
@@ -184,7 +157,6 @@ html, #root, body {
   pointer-events: none;
 }
 
-
 @keyframes lumosExpand {
   0% {
     transform: scale(0);
@@ -208,19 +180,8 @@ html, #root, body {
 
 /* Magic button */
 .magic-btn {
-  position: relative;
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
   background-color: rgba(255, 255, 255, 0.08);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  cursor: pointer;
-  overflow: hidden;
-  z-index: 10;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
   animation: floatY 3s ease-in-out infinite;
   transition: transform 0.2s ease;
@@ -269,4 +230,19 @@ html, #root, body {
     opacity: 0;
     transform: translate(-50%, -50%) scale(2.5);
   }
+}
+
+@keyframes tooltipFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-animate {
+  animation: tooltipFadeIn 0.3s ease-out forwards;
 }

@@ -19,3 +19,4 @@ export const pageGeometry = new BoxGeometry(
     2
 )
 
+export const BASE_URL = '/my-portfolio';

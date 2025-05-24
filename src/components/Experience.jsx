@@ -1,9 +1,20 @@
-import { Environment, OrbitControls } from "@react-three/drei";
+import { Environment, Float, OrbitControls } from "@react-three/drei";
 import { Book } from "./Book";
+import { useAtom } from "jotai";
+import { pageAtom } from "./UI";
+
 export const Experience = () => {
+  const [currentPage] = useAtom(pageAtom);
+  const isBookClosed = currentPage === 0;
+
   return (
     <>
+    <Float
+    floatIntensity={1}
+    speed={1}
+    rotationIntensity={1}>
     <Book/>
+    </Float>
       <OrbitControls />
       <Environment preset="studio"></Environment>
       <directionalLight

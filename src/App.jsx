@@ -1,7 +1,8 @@
 import OnLoadAnimation from "./components/OnLoad/OnLoadAnimation";
-import AudioController from "./components/AudioController/AudioController";
 import { useRef, useState } from "react";
-import { ResumeButton } from "./components/ResumeButton";
+import MouseFollower from "./components/MouseFollower";
+import { Navigation } from "./components/Navigation";
+import { BASE_URL } from "./components/constants/constants";
 
 function App() {
   const audioRef = useRef(null);
@@ -9,15 +10,17 @@ function App() {
 
   return (
     <>
+      <MouseFollower />
       <OnLoadAnimation 
         audioRef={audioRef} 
         onHomeLoad={setShowResumeButton}
       />
-      <AudioController audioRef={audioRef} />
+      <audio ref={audioRef} loop>
+        <source src={`${BASE_URL}/sounds/theme.mp3`} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
       {showResumeButton && (
-        <div className="fixed bottom-10 right-10 pointer-events-auto cursor-pointer z-50">
-          <ResumeButton />
-        </div>
+        <Navigation audioRef={audioRef} />
       )}
     </>
   );
